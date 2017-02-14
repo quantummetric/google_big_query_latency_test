@@ -4,8 +4,11 @@ This repository is aimed at testing the concurrent query performance of Google B
 ## Installation
 
 ### Yarn
-```bash
+```
 yarn
+```
+```
+yarn build
 ```
 ```
 yarn start 
@@ -15,6 +18,9 @@ yarn start
 ```bash
 npm install
 ```
-```$xslt
+```
+npm run build
+```
+```
 npm run start
 ```
