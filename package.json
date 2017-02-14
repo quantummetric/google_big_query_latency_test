@@ -1,0 +1,24 @@
+{
+  "name": "bq-latency-test",
+  "version": "0.0.0",
+  "description": "\"example of @google/big-query odd performance characteristics\"",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "babel src --out-dir lib --source-maps",
+    "start": "babel-node ./lib/index",
+    "clean": "rm -rf ./lib",
+    "dist-clean": "rm -rf ./lib ./node_modules ./yarn.lock"
+  },
+  "dependencies": {
+    "@google-cloud/bigquery": "^0.6.1",
+    "babel-cli": "^6.22.2",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-regenerator": "^6.22.0",
+    "babel-polyfill": "^6.22.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-1": "^6.22.0",
+    "console.table": "^0.8.0"
+  }
+}
