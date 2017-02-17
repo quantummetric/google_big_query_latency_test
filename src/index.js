@@ -1,25 +1,16 @@
-import BigQuery from '@google-cloud/bigquery'
+import BigQuery from './BQRestAPI'
 import "console.table"
-const projectId = 'INSERT_PROJECT_ID';
-const bigQuery = BigQuery({
-    projectId
-});
 
-const TRIVIAL_QUERY = `SELECT 1`;
+const projectId = 'PROJECT_ID';
+
 const genQuery  = () => `SELECT ${Math.floor(Math.random() * 100)}`;
+const bigQuery = BigQuery({projectId});
 
 async function testQuery() {
     const startTime = (new Date()).getTime();
-    const [job] = await bigQuery.startQuery({
-        query: genQuery(),
-        useLegacySQL: false
-    });
-    const jobPostTime = (new Date()).getTime() - startTime;
-    await job.promise();
-    const jobCompleteTime = (new Date()).getTime() - startTime - jobPostTime;
-    const [rows] = await job.getQueryResults();
-    const rowFetchTime = (new Date()).getTime() - startTime - jobPostTime - jobCompleteTime;
-    return {jobPostTime, jobCompleteTime, rowFetchTime};
+    await bigQuery.query(genQuery());
+    const endTime = (new Date()).getTime();
+    return {completeTime: endTime - startTime}
 }
 
 function summaryStats(arr) {
@@ -35,7 +26,7 @@ function summaryStats(arr) {
 async function runTrials(trialCount) {
     const timingPromises = [...new Array(trialCount)].map(i => testQuery());
     const timings = await Promise.all(timingPromises);
-    const keys = ['jobPostTime', 'jobCompleteTime', 'rowFetchTime'];
+    const keys = ['completeTime'];
     const stats = keys.map(k => ({key: k, ...summaryStats(timings.map(t => t[k]))}));
     console.log(`Timings for ${trialCount} concurrent queries`);
     console.table(stats);
